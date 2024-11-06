@@ -49,7 +49,7 @@ class GameObject:
         position (tuple): Координаты позиции объекта.
     """
 
-    def __init__(self, color, position: tuple):
+    def __init__(self, color=(0, 0, 0), position=(0, 0)):
         """Инициализация объекта с заданными цветом и позицией."""
         self.body_color = color
         self.position = position

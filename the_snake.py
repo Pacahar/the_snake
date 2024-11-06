@@ -129,10 +129,6 @@ class Snake(GameObject):
 
     def reset(self):
         """Сбрасывает змею к начальной позиции и параметрам."""
-        for position in self.positions:
-            rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
-            pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, rect)
-
         self.position = (
             GRID_WIDTH * GRID_SIZE // 2,
             GRID_HEIGHT * GRID_SIZE // 2
@@ -229,6 +225,9 @@ def main():
             snake.move(False)
 
         if snake.get_head_position() in snake.positions[1:]:
+            for position in snake.positions:
+                rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
+                pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, rect)
             snake.reset()
 
         snake.draw()

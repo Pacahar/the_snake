@@ -48,19 +48,14 @@ class GameObject:
         body_color (tuple): Цвет объекта.
         position (tuple): Координаты позиции объекта.
     """
-    def __init__(self, color, position: tuple):
-        """
-        Инициализация объекта.
 
-        Параметры:
-            color (tuple): Цвет объекта.
-            position (tuple): Начальная позиция объекта.
-        """
+    def __init__(self, color, position: tuple):
+        """Инициализация объекта с заданными цветом и позицией."""
         self.body_color = color
         self.position = position
 
     def draw(self):
-        """Метод для отрисовки объекта. Должен быть реализован в подклассах."""
+        """Отрисовка объекта. Должен быть реализован в подклассах."""
         pass
 
 
@@ -75,10 +70,9 @@ class Snake(GameObject):
         next_direction (tuple): Направление движения на следующем ходу.
         last (tuple): Последняя позиция тела змеи.
     """
+
     def __init__(self):
-        """
-        Инициализация змеи с заданным цветом и начальной позицией.
-        """
+        """Инициализация змеи с начальной позицией и параметрами."""
         super().__init__(SNAKE_COLOR, (
             GRID_WIDTH * GRID_SIZE // 2, GRID_HEIGHT * GRID_SIZE // 2
         ))
@@ -89,21 +83,17 @@ class Snake(GameObject):
         self.last = None
 
     def update_direction(self):
-        """
-        Обновляет направление движения змеи, если было задано новое
-        направление.
-        """
+        """Обновление направления движения змеи, если оно было изменено."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
 
     def move(self, is_increased):
         """
-        Перемещает змею на одну позицию вперед.
+        Перемещение змеи на одну позицию вперед.
 
         Параметры:
-            is_increased (bool): Указывает, выросла ли змея после последнего
-            шага.
+            is_increased (bool): Указывает, увеличилась ли длина змеи после последнего шага.
         """
         head = self.get_head_position()
         new_head = (
@@ -116,16 +106,13 @@ class Snake(GameObject):
             self.positions.pop()
 
     def draw(self):
-        """
-        Отрисовывает тело змеи на экране, включая голову и стирает последний
-        сегмент.
-        """
+        """Отрисовка тела змеи, включая голову и затирание последнего сегмента."""
         for position in self.positions[:-1]:
             rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, self.body_color, rect)
             pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
-        # Отрисовка головы змейки
+        # Отрисовка головы змеи
         head_rect = pygame.Rect(self.positions[0], (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, head_rect)
         pygame.draw.rect(screen, BORDER_COLOR, head_rect, 1)
@@ -136,18 +123,11 @@ class Snake(GameObject):
             pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
 
     def get_head_position(self):
-        """
-        Возвращает текущую позицию головы змеи.
-
-        Возвращает:
-            tuple: Координаты головы змеи.
-        """
+        """Возвращает текущую позицию головы змеи."""
         return self.positions[0]
 
     def reset(self):
-        """
-        Сбрасывает змею к начальным параметрам.
-        """
+        """Сбрасывает змею к начальной позиции и параметрам."""
         for position in self.positions:
             rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, rect)
@@ -172,26 +152,21 @@ class Apple(GameObject):
     Атрибуты:
         position (tuple): Координаты яблока.
     """
+
     def __init__(self):
-        """
-        Инициализация яблока с заданным цветом и случайной начальной позицией.
-        """
+        """Инициализация яблока с цветом и случайной позицией."""
         super().__init__(APPLE_COLOR, (0, 0))
         self.randomize_position()
 
     def randomize_position(self):
-        """
-        Устанавливает яблоко в случайную позицию на игровом поле.
-        """
+        """Устанавливает яблоко в случайную позицию на игровом поле."""
         self.position = (
             randint(0, GRID_WIDTH - 1) * GRID_SIZE,
             randint(0, GRID_HEIGHT - 1) * GRID_SIZE
         )
 
     def draw(self):
-        """
-        Отрисовывает яблоко на экране.
-        """
+        """Отрисовка яблока на экране."""
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
@@ -200,6 +175,7 @@ class Apple(GameObject):
 def handle_keys(game_object):
     """
     Обрабатывает нажатия клавиш для управления направлением змеи.
+
     Параметры:
         game_object (Snake): Экземпляр змеи для обновления направления.
 
@@ -223,9 +199,10 @@ def handle_keys(game_object):
 
 def main():
     """
-    Основная функция для запуска игры. Создает игровой цикл, где обрабатываются
-    действия пользователя, обновляются позиции змеи и яблока, выполняется
-    отрисовка, и проверяются условия конца игры.
+    Основная функция для запуска игры.
+
+    Создает игровой цикл, в котором обрабатываются действия пользователя, обновляются позиции змеи и яблока,
+    выполняется отрисовка и проверяются условия конца игры.
     """
     pygame.init()
     snake = Snake()
